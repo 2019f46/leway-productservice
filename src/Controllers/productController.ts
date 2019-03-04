@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { Categories, ICategories } from '../models/product.model';
+import { Categories, ICategories, ICategory } from '../models/product.model';
 
 
 class ProductController {
@@ -54,14 +54,20 @@ class ProductController {
     //     });
 
     // }
+
     public getProduct(req: Request, res: Response, next) {
-        Categories.find({}, (err: any, map) => {
+        Categories.find({}, (err: any, data) => {
             if (err) {
                 res.status(500).send(err);
             }
             else {
-                res.json(map)
-                // res.json(map[0]).send(); // So far, always at place 0
+                data[0].categories.forEach(dat => {
+                    if (dat.leaf === true && dat.products && dat.products.find(item => item.name === req.params.product)) {
+                        res.send(dat.products).send();
+                    }
+                });
+
+                res.json(data[0]).send(); // So far, always at place 0
             }
         });
 
@@ -69,7 +75,7 @@ class ProductController {
 
     public route() {
         // this.productRouter.get('/save', this.saveProducts);
-        this.productRouter.get('/get', this.getProduct);
+        this.productRouter.get('/get/:product', this.getProduct);
     }
 }
 

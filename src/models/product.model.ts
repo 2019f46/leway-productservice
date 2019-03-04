@@ -21,7 +21,7 @@ export interface ICategories extends Document {
     categories: ICategory[];
 }
 
-export const ProductSchema: Schema = new Schema({
+export const Product: Schema = new Schema({
     id: {
         type: String,
         required: true
@@ -48,9 +48,9 @@ export const ProductSchema: Schema = new Schema({
     }
 });
 
-export const CategorySchema: Schema = new Schema({
+export const Category: Schema = new Schema({
     products: {
-        type: [ProductSchema],
+        type: [Product],
         required: false
     },
     leaf: {
@@ -67,12 +67,12 @@ export const CategorySchema: Schema = new Schema({
     }
 });
 
-export const CategoriesSchema: Schema = new Schema({
+export const Catgories: Schema = new Schema({
     categories: {
-        type: [CategorySchema],
+        type: [Category],
         required: true
     }
 
 });
 
-export const Categories: Model<ICategories> = model<ICategories>("Categories", CategoriesSchema);
+export const Categories: Model<ICategories> = model<ICategories>("Categories", Catgories);

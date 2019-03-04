@@ -13,7 +13,8 @@
             "protocol": "inspector",
             "outFiles": [
                 "${workspaceFolder}/bin/**/*.js"
-            ]
+            ],
+            "preLaunchTask": "build"
         }
     ]
 }
