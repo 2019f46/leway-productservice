@@ -32,18 +32,34 @@ class ProductController {
     //                 name: "Cow Products",
     //                 leaf: false,
     //                 category: [{
-    //                     name: "Milky Products",
-    //                     leaf: true,
-    //                     products: [
-    //                         {
-    //                             image: "https://cdn.shopify.com/s/files/1/0206/9470/products/southcoast-milk-1l_1024x1024.jpg?v=1494139427",
-    //                             id: "47",
-    //                             name: "Milk",
-    //                             quantity: "700",
-    //                             price: "5",
-    //                             description: "Its white",
-    //                         }
-    //                     ]
+    //                     name: "Grandparent Cow",
+    //                     leaf: false,
+    //                     category: [{
+    //                         name: "Parent Cow",
+    //                         leaf: false,
+    //                         category: [{
+    //                             name: "Child Cow",
+    //                             leaf: true,
+    //                             products: [
+    //                                 {
+    //                                     image: "https://cdn.shopify.com/s/files/1/0206/9470/products/southcoast-milk-1l_1024x1024.jpg?v=1494139427",
+    //                                     id: "47",
+    //                                     name: "Milk",
+    //                                     quantity: "700",
+    //                                     price: "5",
+    //                                     description: "Its white",
+    //                                 },
+    //                                 {
+    //                                     image: "https://7gigzxopz0uiqxo1-zippykid.netdna-ssl.com/wp-content/uploads/2015/08/cheese.jpg",
+    //                                     id: "15",
+    //                                     name: "Cheese",
+    //                                     quantity: "100",
+    //                                     price: "25",
+    //                                     description: "It be smelly",
+    //                                 }
+    //                             ]
+    //                         }]
+    //                     }]
     //                 }]
     //             }
     //         ]
@@ -57,31 +73,33 @@ class ProductController {
 
     public getProduct(req: Request, res: Response, next) {
         let searchValue = req.params.product;
+
+        let returnvalue: any[];
         Categories.find({}, (err: any, data) => {
             if (err) {
                 res.status(500).send(err);
             }
             else {
-                let result = searchCategories(data[0].categories);
-                res.send(result);
+                searchCategories(data[1].categories);
+                res.send(returnvalue);
             }
         });
+
+
 
         let searchCategories = function (categories: ICategory[]) {
             for (let i = 0; i < categories.length; i++) {
                 let current = categories[i];
                 let isLeaf = current.leaf;
-                let containsResult = current.products.filter(product => product.name === searchValue).length > 0;
 
-                if (current.products && isLeaf && containsResult) {
-                    return JSON.stringify(current.products);
+                if (current.products && isLeaf) {
+                    returnvalue = current.products;
                 } else {
                     searchCategories(current.category);
                 }
             }
         }
     }
-
 
 
     public route() {
