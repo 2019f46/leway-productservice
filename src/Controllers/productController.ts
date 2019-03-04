@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { Categories, ICategories, ICategory } from '../models/product.model';
+import { Categories, ICategories, ICategory, Product, Category } from '../models/product.model';
 
 
 class ProductController {
@@ -56,22 +56,33 @@ class ProductController {
     // }
 
     public getProduct(req: Request, res: Response, next) {
+        let searchValue = req.params.product;
         Categories.find({}, (err: any, data) => {
             if (err) {
                 res.status(500).send(err);
             }
             else {
-                data[0].categories.forEach(dat => {
-                    if (dat.leaf === true && dat.products && dat.products.find(item => item.name === req.params.product)) {
-                        res.send(dat.products).send();
-                    }
-                });
-
-                res.json(data[0]).send(); // So far, always at place 0
+                let result = searchCategories(data[0].categories);
+                res.send(result);
             }
         });
 
+        let searchCategories = function (categories: ICategory[]) {
+            for (let i = 0; i < categories.length; i++) {
+                let current = categories[i];
+                let isLeaf = current.leaf;
+                let containsResult = current.products.filter(product => product.name === searchValue).length > 0;
+
+                if (current.products && isLeaf && containsResult) {
+                    return JSON.stringify(current.products);
+                } else {
+                    searchCategories(current.category);
+                }
+            }
+        }
     }
+
+
 
     public route() {
         // this.productRouter.get('/save', this.saveProducts);
