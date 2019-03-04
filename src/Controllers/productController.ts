@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { Categories, ICategories, ICategory, Product, Category } from '../models/product.model';
+import { Categories, ICategory } from '../models/product.model';
 
 
 class ProductController {
@@ -93,7 +93,13 @@ class ProductController {
                 let isLeaf = current.leaf;
 
                 if (current.products && isLeaf) {
-                    returnvalue = current.products;
+                    let containsResult = current.products.filter(product => product.name === searchValue).length > 0;
+                    if (containsResult) {
+                        returnvalue = current.products;
+                        return;
+                    } else {
+                        searchCategories(current.category);
+                    }
                 } else {
                     searchCategories(current.category);
                 }
