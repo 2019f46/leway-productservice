@@ -1,6 +1,6 @@
 import { Document, Schema, Model, model } from "mongoose";
 
-export interface IProductModel extends Document {
+export interface IProduct extends Document {
     id: string;
     image: string;
     name: string;
@@ -9,8 +9,16 @@ export interface IProductModel extends Document {
     price: string;
 }
 
-export interface IProducts extends Document {
-    allProducts: IProductModel[];
+// If leaf = false, then there are no products
+export interface ICategory extends Document {
+    leaf?: boolean;
+    name: string;
+    products?: IProduct[];
+    category?: ICategory[];
+}
+
+export interface ICategories extends Document {
+    categories: ICategory[];
 }
 
 export const ProductSchema: Schema = new Schema({
@@ -40,11 +48,31 @@ export const ProductSchema: Schema = new Schema({
     }
 });
 
-export const ProductsSchema: Schema = new Schema({
-    allProducts: {
+export const CategorySchema: Schema = new Schema({
+    products: {
         type: [ProductSchema],
+        required: false
+    },
+    leaf: {
+        type: Boolean,
+        required: false
+    },
+    name: {
+        type: String,
         required: true
+    },
+    category: {
+        type: [],
+        required: false
     }
 });
 
-export const Products: Model<IProducts> = model<IProducts>("Product", ProductsSchema);
+export const CategoriesSchema: Schema = new Schema({
+    categories: {
+        type: [CategorySchema],
+        required: true
+    }
+
+});
+
+export const Categories: Model<ICategories> = model<ICategories>("Categories", CategoriesSchema);
