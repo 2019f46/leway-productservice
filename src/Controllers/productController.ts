@@ -85,15 +85,16 @@ class ProductController {
             }
         });
 
-
-
         let searchCategories = function (categories: ICategory[]) {
+            if (!categories) {
+                return "No Products were found";
+            }
             for (let i = 0; i < categories.length; i++) {
                 let current = categories[i];
                 let isLeaf = current.leaf;
 
                 if (current.products && isLeaf) {
-                    let containsResult = current.products.filter(product => product.name === searchValue).length > 0;
+                    let containsResult = current.products.filter(product => product.name.toLowerCase().includes(searchValue.toLowerCase())).length > 0;
                     if (containsResult) {
                         returnvalue = current.products;
                         return;
