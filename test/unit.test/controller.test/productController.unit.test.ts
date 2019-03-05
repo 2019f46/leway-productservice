@@ -32,4 +32,11 @@ describe('Testing product service', () => {
             expect(data._id.toString()).toBe(fakeData._id.toString());
         });
     });
+
+    it('returns error 500 on error', () => {
+        mockingoose.Categories.toReturn(new Error("500"), 'find');
+        Categories.find({}, (err: Error, data: { _id: string }) => {
+            expect(err.message).toBe("500");
+        });
+    });
 });
