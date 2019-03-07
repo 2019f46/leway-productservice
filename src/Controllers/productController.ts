@@ -6,68 +6,80 @@ import { Categories, ICategory, Category } from "../models/product.model";
  * Will search for the product in the list, and return anything that looks like it
  * 
  */
-export class ProductController {
+class ProductController {
   public productRouter: Router;
 
-  constructor() {
+  private query: any;
+  private returnvalue: any[];
+
+  public constructor() {
     this.productRouter = Router();
     this.route();
+    this.query = "default";
+    this.returnvalue = [];
   }
 
-  public getProduct(req: Request, res: Response, next) {
-    let query = req.params.product;
+  private searchCategories(categories: ICategory[]) {
+    for (const category of categories) {
 
-    let returnvalue: any[];
+      if (category.name && category.name.toLowerCase().includes(this.query.toLowerCase())) {
+        console.log("Calling addFull from searchCat");
+        this.addFullCategory([category]);
+      } 
+      else if (category.leaf) {
+        let Result =
+          category.products.filter(product =>
+            product.name.toLowerCase().includes(this.query.toLowerCase())
+          );
+        if (Result) {
+          for(let product of Result)
+          this.returnvalue.push(product);
+        }
+      } 
+      else {
+        this.searchCategories(category.categories);
+      }
+    }
+  }
+
+  private addFullCategory(categories: ICategory[]) {
+    for (let category of categories) {
+      
+      if (category.leaf && category.products) {
+        for(let product of category.products){
+          this.returnvalue.push(product);
+        }
+      } 
+      else if (category.categories) {
+        this.addFullCategory(category.categories);
+      }
+    }
+  };
+  
+  public getProduct(req: Request, res: Response, next) {
+    this.query = req.params.product;
+
     Categories.find({}, (err: any, data) => {
       if (err) {
         res.status(500).send(err);
       } else {
-        searchCategories(data[1].categories);
+        this.searchCategories(data as ICategory[]);
         
-        if(!returnvalue){
+        if(!this.returnvalue){
           res.sendStatus(404);
         }
 
-        res.send(returnvalue);
+        res.send(this.returnvalue);
       }
+
+      // RESET
+      this.query = "default";
+      this.returnvalue = [];
     });
-
-    let searchCategories = function(categories: ICategory[]) {
-      for (const category of categories) {
-        
-        if (category.name.toLowerCase().includes(query.toLowerCase())) {
-          addFullCategory([category]);
-        } 
-        else if (category.leaf) {
-          let containsResult =
-            category.products.filter(product =>
-              product.name.toLowerCase().includes(query.toLowerCase())
-            ).length > 0;
-          if (containsResult) {
-            returnvalue.push(containsResult);
-          }
-        } 
-        else {
-          searchCategories(category.categories);
-        }
-      }
-    };
-
-    let addFullCategory = function(categories: ICategory[]) {
-      for (let category of categories) {
-        
-        if (category.leaf && category.products) {
-          returnvalue.push(category.products);
-        } 
-        else if (category.categories) {
-          addFullCategory(category.categories);
-        }
-      }
-    };
   }
 
   public route() {
-    this.productRouter.get("/:product", this.getProduct);
+    this.productRouter.get("/:product", this.getProduct.bind(this));
   }
 }
 

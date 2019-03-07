@@ -1,6 +1,6 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import productController from "./Controllers/productController";
+import productRouter from "./Controllers/productController";
 
 
 
@@ -24,7 +24,7 @@ class App {
     }
 
     private setRoutes(): void {
-        this.app.use("/api/product", productController);
+        this.app.use("/api/product", productRouter);
     }
 }
 
