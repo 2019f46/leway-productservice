@@ -23,7 +23,6 @@ class ProductController {
     for (const category of categories) {
 
       if (category.name && category.name.toLowerCase().includes(this.query.toLowerCase())) {
-        console.log("Calling addFull from searchCat");
         this.addFullCategory([category]);
       } 
       else if (category.leaf) {
@@ -65,7 +64,7 @@ class ProductController {
       } else {
         this.searchCategories(data as ICategory[]);
         
-        if(!this.returnvalue){
+        if(this.returnvalue.length <= 0){
           res.sendStatus(404);
         }
 
