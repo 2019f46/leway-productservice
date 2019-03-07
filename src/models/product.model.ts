@@ -14,7 +14,7 @@ export interface ICategory extends Document {
     leaf?: boolean;
     name: string;
     products?: IProduct[];
-    category?: ICategory[];
+    categories?: ICategory[];
 }
 
 export interface ICategories extends Document {
@@ -61,7 +61,7 @@ export const Category: Schema = new Schema({
         type: String,
         required: true
     },
-    category: {
+    categories: {
         type: [],
         required: false
     }
