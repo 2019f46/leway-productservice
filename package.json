@@ -1,7 +1,7 @@
 {
-  "name": "mapservice",
+  "name": "productservice",
   "version": "1.0.0",
-  "description": "Service for getting and posting map data",
+  "description": "Service for getting product data",
   "main": "./dist/app.js",
   "scripts": {
     "build": "tsc",
