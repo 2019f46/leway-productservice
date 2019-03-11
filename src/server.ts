@@ -8,12 +8,10 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 
 // DB Setup
-// TODO Should be environment specific!
-const dbName = "leway-mapdb";
-const dbPrimKey =
-    "Ih5yMcG8nZXSbYYegjbb5VcxAhnPraTdTBueLj5Lkr47bhf3E0ZTM4pbkh7ITlj2lgHoxyHRQe4b8cBrPkevkQ==";
-const dbUrl =
-    `mongodb://${dbName}:${dbPrimKey}@${dbName}.documents.azure.com:10250/mean?ssl=true&sslverifycertificate=false`;
+const dbName = "wayfinder";
+const dbUser = "backend";
+const dbPassword = "elBackend1";
+const dbUrl = `mongodb://${dbUser}:${dbPassword}@ds163835.mlab.com:63835/${dbName}`;
 
 // Connect to the db
 connect(dbUrl, { useNewUrlParser: true });

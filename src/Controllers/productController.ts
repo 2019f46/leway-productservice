@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { Categories, ICategory, Category } from "../models/product.model";
+import { Categories, ICategory } from "../models/product.model";
 
 /**
  * The product controller that will serve the endpoint /api/product
@@ -24,17 +24,17 @@ class ProductController {
 
       if (category.name && category.name.toLowerCase().includes(this.query.toLowerCase())) {
         this.addFullCategory([category]);
-      } 
+      }
       else if (category.leaf) {
         let Result =
           category.products.filter(product =>
             product.name.toLowerCase().includes(this.query.toLowerCase())
           );
         if (Result) {
-          for(let product of Result)
-          this.returnvalue.push(product);
+          for (let product of Result)
+            this.returnvalue.push(product);
         }
-      } 
+      }
       else {
         this.searchCategories(category.categories);
       }
@@ -43,18 +43,18 @@ class ProductController {
 
   private addFullCategory(categories: ICategory[]) {
     for (let category of categories) {
-      
+
       if (category.leaf && category.products) {
-        for(let product of category.products){
+        for (let product of category.products) {
           this.returnvalue.push(product);
         }
-      } 
+      }
       else if (category.categories) {
         this.addFullCategory(category.categories);
       }
     }
   };
-  
+
   public getProduct(req: Request, res: Response, next) {
     this.query = req.params.product;
 
@@ -63,8 +63,8 @@ class ProductController {
         res.status(500).send(err);
       } else {
         this.searchCategories(data as ICategory[]);
-        
-        if(this.returnvalue.length <= 0){
+
+        if (this.returnvalue.length <= 0) {
           res.sendStatus(404);
         }
 
@@ -83,3 +83,5 @@ class ProductController {
 }
 
 export default new ProductController().productRouter;
+
+
