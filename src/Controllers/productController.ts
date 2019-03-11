@@ -3,13 +3,16 @@ import { Categories, ICategory, Category, ICategories } from "../models/product.
 
 /**
  * The product controller that will serve the endpoint /api/product
- * Will search for the product in the list, and return anything that looks like it
- * 
+ * Will search for the product in the list, and return anything that matches
+ * either product- or category name
  */
 class ProductController {
+  /** Router */
   public productRouter: Router;
 
+  /** Variable used to save the query */
   private query: any;
+  /** Variable used to store the return value */
   private returnvalue: any[];
 
   public constructor() {
@@ -19,6 +22,15 @@ class ProductController {
     this.returnvalue = [];
   }
 
+  /** 
+   * Will go through a list of categories and match the name to query
+   * If its a match, it will add all sub-categories and products
+   * If the category does not match and is a leaf, it will match product names
+   *    and add to returnvalue if it matches
+   * If its not a leaf category, it will recursively call this method again with
+   *    the next set of categories.
+   * @param categories a list of categories
+   */
   private searchCategories(categories: ICategory[]) {
     for (const category of categories) {
 
@@ -41,6 +53,11 @@ class ProductController {
     }
   }
 
+  /**
+   * Will go through a list of categories
+   * and add all products in it's category tree
+   * @param categories a list of categories
+   */
   private addFullCategory(categories: ICategory[]) {
     for (let category of categories) {
 
@@ -54,7 +71,13 @@ class ProductController {
       }
     }
   };
-
+  
+  /**
+   * Get Products maps to GET /api/products/:query
+   * @param req The product query as URL parameter
+   * @param res Will contain a list of products matching the query
+   * @param next Not used
+   */
   public getProduct(req: Request, res: Response, next) {
     this.query = req.params.product;
 
@@ -77,6 +100,7 @@ class ProductController {
     });
   }
 
+  /** Sets up route for GET */
   public route() {
     this.productRouter.get("/:product", this.getProduct.bind(this));
   }

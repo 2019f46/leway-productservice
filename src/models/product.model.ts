@@ -1,23 +1,45 @@
 import { Document, Schema, Model, model } from "mongoose";
 
+/** Product model interface
+ * Is used to represent the products on the API, not necaserily in the database
+ */
 export interface IProduct extends Document {
+    /** Identifyer */
     id: string;
+    /** URL to an image */
     image: string;
+    /** Product name */
     name: string;
+    /** Amounts of product in the store */
     quantity: string;
+    /** Product description */
     description: string;
+    /** Product price */
     price: string;
 }
 
-// If leaf = false, then there are no products
+/** Category model interface
+ * Is used to navigate categories in the data
+ * A category can be either a leaf or not.
+ * A leaf category has a list of products
+ * A non-leaf category has a list of categories.
+ */
 export interface ICategory extends Document {
+    /** Leaf stats, true or false */
     leaf?: boolean;
+    /** Category name */
     name: string;
+    /** List of products, empty if non-leaf */
     products?: IProduct[];
+    /** List of categories, empty if leaf */
     categories?: ICategory[];
 }
 
+/** Categories model interface
+ * Used as the root category.
+ */
 export interface ICategories extends Document {
+    /** List of categories */
     categories: ICategory[];
 }
 
