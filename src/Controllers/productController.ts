@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { Categories, ICategory } from "../models/product.model";
+import { Categories, ICategory, Category, ICategories } from "../models/product.model";
 
 /**
  * The product controller that will serve the endpoint /api/product
