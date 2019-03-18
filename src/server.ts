@@ -2,7 +2,7 @@ import app from "./app";
 import * as cors from "cors";
 import { connect, connection } from "mongoose";
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Enable cors - default (any) till we know where it will be hosted
 app.use(cors());
