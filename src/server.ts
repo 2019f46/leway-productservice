@@ -4,8 +4,23 @@ import { connect, connection } from "mongoose";
 
 const PORT = process.env.PORT || 3001;
 
-// Enable cors - default (any) till we know where it will be hosted
-app.use(cors());
+// Enable cors
+app.use(cors({
+    allowedHeaders: ["sessionId", "Content-Type"],
+    exposedHeaders: "sessionId",
+    origin: "*",
+    methods: "GET, POST, PUT, DELETE",
+    preflightContinue: false
+  }));
+
+// Middleware for setting cors related headers in response
+app.use(function(req, res, next) {
+    res
+      .header("Access-Control-Allow-Origin", "*")
+      .header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE")
+      .header("Access-Control-Allow-Headers", "SessionId, Content-Type");
+    next();
+  });
 
 // DB Setup
 const dbName = "wayfinder";
