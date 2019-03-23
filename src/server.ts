@@ -13,15 +13,6 @@ app.use(cors({
     preflightContinue: false
   }));
 
-// Middleware for setting cors related headers in response
-app.use(function(req, res, next) {
-    res
-      .header("Access-Control-Allow-Origin", "*")
-      .header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE")
-      .header("Access-Control-Allow-Headers", "SessionId, Content-Type");
-    next();
-  });
-
 // DB Setup
 const dbName = "wayfinder";
 const dbUser = "backend";
