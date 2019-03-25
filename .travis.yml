@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+- '10.10.0'
+script:
+- npm install
+- npm run test
+deploy:
+  on:
+    branch: master
+  provider: heroku
+  api_key:
+    secure: "83b487b9-c812-4d4d-80af-6ed3d3096f86"
+  app: wayfinder-productservice
