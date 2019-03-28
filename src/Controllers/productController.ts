@@ -71,7 +71,7 @@ class ProductController {
       }
     }
   };
-  
+
   /**
    * Get Products maps to GET /api/products/:query
    * @param req The product query as URL parameter
@@ -87,11 +87,11 @@ class ProductController {
       } else {
         this.searchCategories(data as ICategory[]);
 
-        if (this.returnvalue.length <= 0) {
+        if (this.returnvalue.length < 1) {
           res.sendStatus(404);
+        } else {
+          res.status(200).send(this.returnvalue);
         }
-
-        res.send(this.returnvalue);
       }
 
       // RESET
