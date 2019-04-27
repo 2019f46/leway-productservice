@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { Categories, ICategory, Category, ICategories } from "../models/product.model";
+import { Categories, ICategory, Category, ICategories, IProduct} from "../models/product.model";
 
 /**
  * The product controller that will serve the endpoint /api/product
@@ -100,9 +100,32 @@ class ProductController {
     });
   }
 
+  /**
+   * 
+   * @param req 
+   * @param res 
+   * @param next 
+   */
+  public getByProductByIDs(req: Request, res: Response, next){
+    let Ids: string[] = JSON.parse(req.query.ids);
+
+    Categories.find({'categories.leaf': true}, (err: any, data) => {
+      if(err){
+        res.status(500).send(err);
+      } else {
+        if(data.length < 1){
+          res.sendStatus(404);
+        } else {
+          res.status(200).send(data);
+        }
+      }
+    })
+  }
+
   /** Sets up route for GET */
   public route() {
     this.productRouter.get("/:product", this.getProduct.bind(this));
+    this.productRouter.get("", this.getByProductByIDs.bind(this));
   }
 }
 
