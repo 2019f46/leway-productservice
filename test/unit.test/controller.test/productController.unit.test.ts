@@ -71,7 +71,12 @@ const fakeData = [
   }
 ];
 
-describe("GET /api/product", () => {
+/**
+ * TEST OF GETPRODUCT
+ *  
+ * 
+ */
+describe("GET /api/product/:product", () => {
   beforeEach(() => {
     mockingoose.resetAll();
   });
@@ -206,4 +211,83 @@ describe("GET /api/product", () => {
       .get("/api/product/bliblub")
       .expect(404);
   });
+
+  it("should return a 500 error on mongoose error", () => {
+    mockingoose.Categories.toReturn(new Error("Error"), "find");
+
+    return request(app)
+    .get("/api/product/bliblub")
+    .expect(500);
+
+  });
+
+});
+
+/**
+ * TEST FOR GETPRODUCTBYID
+ *  
+ * 
+ */
+describe("GET /api/product?ids=[]", () => {
+  beforeEach(() => {
+    mockingoose.resetAll();
+  });
+
+  it("should return products with correct IDs", () => {
+    mockingoose.Categories.toReturn(fakeData, "find");
+
+    return request(app)
+      .get(`/api/product?ids=["3", "28"]`)
+      .then(res => {
+        expect(JSON.parse(res.text)).toEqual([
+          
+          {
+            _id: "5c8155e3b570db675cd742e0",
+            image:
+              "https://c.ndtvimg.com/2018-09/2crujfh8_black-coffee_625x300_24_September_18.PNG",
+            id: "3",
+            name: "coffee",
+            quantity: "500",
+            price: "600",
+            description: "goodness"
+          },
+          {
+            _id: "5c8155e3b570db675cd742d7",
+            image:
+              "https://c.ndtvimg.com/2018-09/2crujfh8_black-coffee_625x300_24_September_18.PNG",
+            id: "28",
+            name: "milk bio",
+            quantity: "500",
+            price: "600",
+            description: "goodness"
+          }
+
+        ]);
+      });
+  });
+
+  it("should return status 404 if it can't find it", () => {
+    mockingoose.Categories.toReturn(fakeData, "find");
+
+    return request(app)
+      .get(`/api/product?ids=["doesnotexist"]`)
+      .expect(404);
+  });
+
+  it("should return a 500 error on mongoose error", () => {
+    mockingoose.Categories.toReturn(new Error("Error"), "find");
+
+    return request(app)
+    .get(`/api/product?ids=["28"]`)
+    .expect(500);
+  });
+
+  it("should return a 404 if nothing in db", () => {
+    mockingoose.Categories.toReturn([], "find");
+
+    return request(app)
+    .get(`/api/product?ids=["28"]`)
+    .expect(404);
+  });
+
 });
