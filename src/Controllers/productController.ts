@@ -127,10 +127,10 @@ class ProductController {
   }
 
   /**
-   * 
-   * @param req 
-   * @param res 
-   * @param next 
+   * Get Products By ID maps to GET /api/products/
+   * @param req An array of ID strings as URL query
+   * @param res A list of product objects in body
+   * @param next Not used
    */
   public getByProductByIDs(req: Request, res: Response, next) {
     let Ids: string[] = JSON.parse(req.query.ids);
