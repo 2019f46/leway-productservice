@@ -14,6 +14,8 @@ class ProductController {
   private query: any;
   /** Variable used to store the return value */
   private returnvalue: any[];
+  /** Variable used to hold products found by ID */
+  private productsByID: IProduct[];
 
   public constructor() {
     this.productRouter = Router();
@@ -72,6 +74,22 @@ class ProductController {
     }
   };
 
+
+  private findProductsByID(categories: ICategory[], Ids: string[]){
+    for(let category of categories) {
+      if(category.leaf && category.products){
+        for (let product of category.products){
+          if(product.id in Ids){
+            this.productsByID.push(product);
+          }
+        }
+      }
+      else{
+        this.findProductsByID(category.categories, Ids); 
+      }
+    }
+  }
+
   /**
    * Get Products maps to GET /api/products/:query
    * @param req The product query as URL parameter
@@ -109,14 +127,30 @@ class ProductController {
   public getByProductByIDs(req: Request, res: Response, next){
     let Ids: string[] = JSON.parse(req.query.ids);
 
-    Categories.find({'categories.leaf': true}, (err: any, data) => {
+    /** FIND EVERYTHING
+     * Our datastructure is a complex tree of elements with lists of themselves.
+     * This makes it difficult to use mongoose queries.
+     * Thefore we get everything to search ourselves.
+     */
+    Categories.find({}, (err: any, data) => {
       if(err){
         res.status(500).send(err);
       } else {
         if(data.length < 1){
           res.sendStatus(404);
         } else {
-          res.status(200).send(data);
+          
+          // Recursively search for product with Ids
+          this.findProductsByID(data as ICategory[], Ids);
+
+          if(this.productsByID.length < 1){
+            res.sendStatus(404);
+          } else{
+            res.status(200).send(this.productsByID);
+          }
+
+          // RESET
+          this.productsByID = [];
         }
       }
     })
