@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { Categories, ICategory, Category, ICategories, IProduct} from "../models/product.model";
+import { Categories, ICategory, Category, ICategories, IProduct } from "../models/product.model";
 
 /**
  * The product controller that will serve the endpoint /api/product
@@ -22,6 +22,7 @@ class ProductController {
     this.route();
     this.query = "default";
     this.returnvalue = [];
+    this.productsByID = [];
   }
 
   /** 
@@ -74,18 +75,25 @@ class ProductController {
     }
   };
 
+  /**
+   * Will manually iterate through the categories to find all products
+   * and match their ID with the Ids parameter.
+   * Will push all products to this.productsByID
+   * @param categories Dataset to iterate through.
+   * @param Ids Array of Ids to check.
+   */
+  private findProductsByID(categories: ICategory[], Ids: string[]) {
+    for (let category of categories) {
+      if (category.leaf && category.products) {
 
-  private findProductsByID(categories: ICategory[], Ids: string[]){
-    for(let category of categories) {
-      if(category.leaf && category.products){
         for (let product of category.products){
-          if(product.id in Ids){
+          if(Ids.indexOf(product.id) > -1){
             this.productsByID.push(product);
           }
         }
       }
-      else{
-        this.findProductsByID(category.categories, Ids); 
+      else {
+        this.findProductsByID(category.categories, Ids);
       }
     }
   }
@@ -124,7 +132,7 @@ class ProductController {
    * @param res 
    * @param next 
    */
-  public getByProductByIDs(req: Request, res: Response, next){
+  public getByProductByIDs(req: Request, res: Response, next) {
     let Ids: string[] = JSON.parse(req.query.ids);
 
     /** FIND EVERYTHING
@@ -133,19 +141,19 @@ class ProductController {
      * Thefore we get everything to search ourselves.
      */
     Categories.find({}, (err: any, data) => {
-      if(err){
+      if (err) {
         res.status(500).send(err);
       } else {
-        if(data.length < 1){
+        if (data.length < 1) {
           res.sendStatus(404);
         } else {
-          
+
           // Recursively search for product with Ids
           this.findProductsByID(data as ICategory[], Ids);
 
-          if(this.productsByID.length < 1){
+          if (this.productsByID.length < 1) {
             res.sendStatus(404);
-          } else{
+          } else {
             res.status(200).send(this.productsByID);
           }
 
