@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { Categories, ICategory, Category, ICategories } from "../models/product.model";
+import { Categories, ICategory, Category, ICategories, IProduct } from "../models/product.model";
 
 /**
  * The product controller that will serve the endpoint /api/product
@@ -14,12 +14,15 @@ class ProductController {
   private query: any;
   /** Variable used to store the return value */
   private returnvalue: any[];
+  /** Variable used to hold products found by ID */
+  private productsByID: IProduct[];
 
   public constructor() {
     this.productRouter = Router();
     this.route();
     this.query = "default";
     this.returnvalue = [];
+    this.productsByID = [];
   }
 
   /** 
@@ -73,6 +76,29 @@ class ProductController {
   };
 
   /**
+   * Will manually iterate through the categories to find all products
+   * and match their ID with the Ids parameter.
+   * Will push all products to this.productsByID
+   * @param categories Dataset to iterate through.
+   * @param Ids Array of Ids to check.
+   */
+  private findProductsByID(categories: ICategory[], Ids: string[]) {
+    for (let category of categories) {
+      if (category.leaf && category.products) {
+
+        for (let product of category.products){
+          if(Ids.indexOf(product.id) > -1){
+            this.productsByID.push(product);
+          }
+        }
+      }
+      else {
+        this.findProductsByID(category.categories, Ids);
+      }
+    }
+  }
+
+  /**
    * Get Products maps to GET /api/products/:query
    * @param req The product query as URL parameter
    * @param res Will contain a list of products matching the query
@@ -100,9 +126,48 @@ class ProductController {
     });
   }
 
+  /**
+   * Get Products By ID maps to GET /api/products/
+   * @param req An array of ID strings as URL query
+   * @param res A list of product objects in body
+   * @param next Not used
+   */
+  public getByProductByIDs(req: Request, res: Response, next) {
+    let Ids: string[] = JSON.parse(req.query.ids);
+
+    /** FIND EVERYTHING
+     * Our datastructure is a complex tree of elements with lists of themselves.
+     * This makes it difficult to use mongoose queries.
+     * Thefore we get everything to search ourselves.
+     */
+    Categories.find({}, (err: any, data) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        if (data.length < 1) {
+          res.sendStatus(404);
+        } else {
+
+          // Recursively search for product with Ids
+          this.findProductsByID(data as ICategory[], Ids);
+
+          if (this.productsByID.length < 1) {
+            res.sendStatus(404);
+          } else {
+            res.status(200).send(this.productsByID);
+          }
+
+          // RESET
+          this.productsByID = [];
+        }
+      }
+    })
+  }
+
   /** Sets up route for GET */
   public route() {
     this.productRouter.get("/:product", this.getProduct.bind(this));
+    this.productRouter.get("", this.getByProductByIDs.bind(this));
   }
 }
 
