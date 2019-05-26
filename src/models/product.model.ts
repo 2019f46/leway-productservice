@@ -1,4 +1,4 @@
-import { Document, Schema, Model, model } from "mongoose";
+import { Document, Model, model, Schema } from "mongoose";
 
 /** Product model interface
  * Is used to represent the products on the API, not necaserily in the database
@@ -43,6 +43,8 @@ export interface ICategories extends Document {
     categories: ICategory[];
 }
 
+/** Product model interface
+ * Describes the model of a product */
 export const Product: Schema = new Schema({
     id: {
         type: String,
@@ -70,6 +72,12 @@ export const Product: Schema = new Schema({
     }
 });
 
+/** Category model interface
+ * Is used to navigate categories in the data
+ * A category can be either a leaf or not.
+ * A leaf category has a list of products
+ * A non-leaf category has a list of categories.
+ */
 export const Category: Schema = new Schema({
     products: {
         type: [Product],
@@ -89,6 +97,7 @@ export const Category: Schema = new Schema({
     }
 });
 
+/**Categories Schema - which is a list of categories */
 export const Catgories: Schema = new Schema({
     categories: {
         type: [Category],
