@@ -4,6 +4,7 @@
   "description": "Service for getting product data",
   "main": "./dist/app.js",
   "scripts": {
+    "doc": "typedoc --out .doc src --exclude *.test.tsx --tsconfig tsconfig.json --mode file",
     "build": "tsc",
     "dev": "ts-node ./src/server.ts",
     "start": "npm run build && node ./dist/server.js",

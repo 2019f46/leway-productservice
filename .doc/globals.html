@@ -67,16 +67,149 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>External modules</h3>
+						<section class="tsd-index-section tsd-is-not-exported">
+							<h3>Classes</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-external-module"><a href="modules/_controllers_productcontroller_.html" class="tsd-kind-icon">"<wbr>Controllers/product<wbr>Controller"</a></li>
-								<li class="tsd-kind-external-module"><a href="modules/_app_.html" class="tsd-kind-icon">"app"</a></li>
-								<li class="tsd-kind-external-module"><a href="modules/_models_product_model_.html" class="tsd-kind-icon">"models/product.model"</a></li>
-								<li class="tsd-kind-external-module"><a href="modules/_server_.html" class="tsd-kind-icon">"server"</a></li>
+								<li class="tsd-kind-class tsd-is-not-exported"><a href="classes/app.html" class="tsd-kind-icon">App</a></li>
+								<li class="tsd-kind-class tsd-is-not-exported"><a href="classes/productcontroller.html" class="tsd-kind-icon">Product<wbr>Controller</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Interfaces</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface"><a href="interfaces/icategories.html" class="tsd-kind-icon">ICategories</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/icategory.html" class="tsd-kind-icon">ICategory</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/iproduct.html" class="tsd-kind-icon">IProduct</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Variables</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable"><a href="globals.html#categories" class="tsd-kind-icon">Categories</a></li>
+								<li class="tsd-kind-variable"><a href="globals.html#category" class="tsd-kind-icon">Category</a></li>
+								<li class="tsd-kind-variable"><a href="globals.html#catgories" class="tsd-kind-icon">Catgories</a></li>
+								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#port" class="tsd-kind-icon">PORT</a></li>
+								<li class="tsd-kind-variable"><a href="globals.html#product" class="tsd-kind-icon">Product</a></li>
+								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#dbname" class="tsd-kind-icon">db<wbr>Name</a></li>
+								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#dbpassword" class="tsd-kind-icon">db<wbr>Password</a></li>
+								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#dburl" class="tsd-kind-icon">db<wbr>Url</a></li>
+								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#dbuser" class="tsd-kind-icon">db<wbr>User</a></li>
 							</ul>
 						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable">
+					<a name="categories" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Categories</h3>
+					<div class="tsd-signature tsd-kind-icon">Categories<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Model</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/icategories.html" class="tsd-signature-type">ICategories</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;model&lt;ICategories&gt;(&quot;Categories&quot;, Catgories)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/2019f46/leway-productservice/blob/45b8e0f/src/models/product.model.ts#L109">models/product.model.ts:109</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable">
+					<a name="category" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Category</h3>
+					<div class="tsd-signature tsd-kind-icon">Category<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Schema</span><span class="tsd-signature-symbol"> =&nbsp;new Schema({products: {type: [Product],required: false},leaf: {type: Boolean,required: false},name: {type: String,required: true},categories: {type: [],required: false}})</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/2019f46/leway-productservice/blob/45b8e0f/src/models/product.model.ts#L81">models/product.model.ts:81</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Category model interface
+								Is used to navigate categories in the data
+								A category can be either a leaf or not.
+								A leaf category has a list of products
+							A non-leaf category has a list of categories.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable">
+					<a name="catgories" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Catgories</h3>
+					<div class="tsd-signature tsd-kind-icon">Catgories<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Schema</span><span class="tsd-signature-symbol"> =&nbsp;new Schema({categories: {type: [Category],required: true}})</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/2019f46/leway-productservice/blob/45b8e0f/src/models/product.model.ts#L101">models/product.model.ts:101</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Categories Schema - which is a list of categories</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-not-exported">
+					<a name="port" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> PORT</h3>
+					<div class="tsd-signature tsd-kind-icon">PORT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">3001</span><span class="tsd-signature-symbol"> =&nbsp;process.env.PORT || 3001</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/2019f46/leway-productservice/blob/45b8e0f/src/server.ts#L5">server.ts:5</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable">
+					<a name="product" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Product</h3>
+					<div class="tsd-signature tsd-kind-icon">Product<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Schema</span><span class="tsd-signature-symbol"> =&nbsp;new Schema({id: {type: String,required: true},image: {type: String,required: true},name: {type: String,required: true},quantity: {type: String,required: true},description: {type: String,required: true},price: {type: String,required: true}})</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/2019f46/leway-productservice/blob/45b8e0f/src/models/product.model.ts#L48">models/product.model.ts:48</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Product model interface
+							Describes the model of a product</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-not-exported">
+					<a name="dbname" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> db<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">db<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"wayfinder"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;wayfinder&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/2019f46/leway-productservice/blob/45b8e0f/src/server.ts#L17">server.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-not-exported">
+					<a name="dbpassword" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> db<wbr>Password</h3>
+					<div class="tsd-signature tsd-kind-icon">db<wbr>Password<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"elBackend1"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;elBackend1&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/2019f46/leway-productservice/blob/45b8e0f/src/server.ts#L19">server.ts:19</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-not-exported">
+					<a name="dburl" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> db<wbr>Url</h3>
+					<div class="tsd-signature tsd-kind-icon">db<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;mongodb://${dbUser}:${dbPassword}@ds163835.mlab.com:63835/${dbName}&#x60;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/2019f46/leway-productservice/blob/45b8e0f/src/server.ts#L20">server.ts:20</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-not-exported">
+					<a name="dbuser" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> db<wbr>User</h3>
+					<div class="tsd-signature tsd-kind-icon">db<wbr>User<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"backend"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;backend&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/2019f46/leway-productservice/blob/45b8e0f/src/server.ts#L18">server.ts:18</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -86,22 +219,52 @@
 					<li class="globals current ">
 						<a href="globals.html"><em>Globals</em></a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_controllers_productcontroller_.html">"<wbr>Controllers/product<wbr>Controller"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_app_.html">"app"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_models_product_model_.html">"models/product.model"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_server_.html">"server"</a>
-					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-is-not-exported">
+						<a href="classes/app.html" class="tsd-kind-icon">App</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-not-exported">
+						<a href="classes/productcontroller.html" class="tsd-kind-icon">Product<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icategories.html" class="tsd-kind-icon">ICategories</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icategory.html" class="tsd-kind-icon">ICategory</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iproduct.html" class="tsd-kind-icon">IProduct</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#categories" class="tsd-kind-icon">Categories</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#category" class="tsd-kind-icon">Category</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#catgories" class="tsd-kind-icon">Catgories</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#port" class="tsd-kind-icon">PORT</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#product" class="tsd-kind-icon">Product</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#dbname" class="tsd-kind-icon">db<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#dbpassword" class="tsd-kind-icon">db<wbr>Password</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#dburl" class="tsd-kind-icon">db<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#dbuser" class="tsd-kind-icon">db<wbr>User</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
