@@ -132,7 +132,7 @@ class ProductController {
    * @param res A list of product objects in body
    * @param next Not used
    */
-  public getByProductByIDs(req: Request, res: Response, next) {
+  public getProductByIDs(req: Request, res: Response, next) {
     let Ids: string[] = JSON.parse(req.query.ids);
 
     /** FIND EVERYTHING
@@ -167,7 +167,7 @@ class ProductController {
   /** Sets up route for GET */
   public route() {
     this.productRouter.get("/:product", this.getProduct.bind(this));
-    this.productRouter.get("", this.getByProductByIDs.bind(this));
+    this.productRouter.get("", this.getProductByIDs.bind(this));
   }
 }
 
